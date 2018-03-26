@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3点定位</title>
+    <script src="js/three.js"></script>
+</head>
+<body>
+    <script>
+        /**
+         * 根据三点坐标和距离求取第四个点的坐标
+         * @param v1    第一个点的坐标
+         * @param v2    第二个点的坐标
+         * @param v3    第三个点的坐标
+         * @param dis1  第一个距离
+         * @param dis2  第二个距离
+         * @param dis3  第三个距离
+         * @returns {*|Vector3} 返回第四个点的坐标
+         */
+        function calculationVector3(v1,v2,v3,dis1,dis2,dis3) {
+            var v4 = new THREE.Vector3();
+            var m = dis2*dis2 - dis1*dis1;
+            var n = dis3*dis3 - dis1*dis1;
+            console.log(m,n);
+            m +=v1.x*v1.x-v2.x*v2.x+v1.z*v1.z-v2.z*v2.z;
+            n +=v1.x*v1.x-v3.x*v3.x+v1.z*v1.z-v3.z*v3.z;
+            m/=2;
+            n/=2;
+            var factor1 = v1.x-v2.x;
+            var factor2 = v1.z-v2.z;
+            var factor3 = v1.x-v3.x;
+            var factor4 = v1.z-v3.z;
+            v4.x = (m*factor4-n*factor2)/(factor1*factor4-factor2*factor3);
+            v4.y = v1.y;
+            v4.z = (m*factor3-n*factor1)/(factor2*factor3-factor1*factor4);
+            return v4;
+        }
+        var vec1= new THREE.Vector3(4,0,7);
+        var vec2= new THREE.Vector3(8,0,12);
+        var vec3= new THREE.Vector3(-5,0,18);
+        var dis1 = vec1.distanceTo(new THREE.Vector3(10,0,-8));
+        var dis2 = vec2.distanceTo(new THREE.Vector3(10,0,-8));
+        var dis3 = vec3.distanceTo(new THREE.Vector3(10,0,-8));
+
+        console.log(calculationVector3(vec1,vec2,vec3,dis1,dis2,dis3));
+
+    </script>
+</body>
+</html>
